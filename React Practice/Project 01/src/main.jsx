@@ -1,11 +1,10 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
-import App, { Scoreboard } from './App.jsx'
+import App from './App'
 
 createRoot(document.getElementById('root')).render(
     <>
-      <App />
-      <Scoreboard/>
+      <App/>
     </>
 )

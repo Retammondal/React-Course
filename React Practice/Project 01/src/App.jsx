@@ -40,77 +40,73 @@
 4. function incrementScore(players id) --> setPlayers()
 */
 // ---------------------------------------------------------------------------------------------------------------------------------------------------
-// NOTE : What i have done till Now?
-// 1. Players Name, id, initial score entry --> creating a useState --> Players Array --> By mapping through it i am showcasing all the Players details
-// Next work will be make it cleaner and take it to Component and then process to rest work as given in project
+// NOTE : did many things...
+// What have to be Done ?
+// Victory Condition and going to negative score block...
 // ---------------------------------------------------------------------------------------------------------------------------------------------------
 
 import { useState } from 'react'
 import './App.css'
+import PlayerEntry from './Component/PlayerEntry'
 
+const initialPlayersList = [
+  { "name": "Anya", "playerID": 102, "score": 4 },
+  { "name": "Liam", "playerID": 103, "score": 3 },
+  { "name": "Chloe", "playerID": 104, "score": 5 },
+  { "name": "Mateo", "playerID": 105, "score": 2 },
+  { "name": "Elena", "playerID": 106, "score": 4 }
+]
 
 function App() {
+  const [player,setPlayer] = useState(initialPlayersList);  // Lifting State Up
+
+  function onIncrement(id){
+    setPlayer((prev)=>{
+      return prev.map((p)=>p.playerID==id ? {...p, score:p.score+1} : p)
+    })
+  }
+  function onDecrement(id){
+    setPlayer((prev)=>{
+      return prev.map((p)=>p.playerID==id ? {...p, score:p.score-1} : p)
+    })
+  }
+
+  function increaseAll(){
+    setPlayer((prev)=>{
+      return prev.map((p)=>({...p, score:p.score+1}))
+    })
+  }
+  function decreaseAll(){
+    setPlayer((prev)=>{
+      return prev.map((p)=>({...p, score:p.score-1}))
+    })
+  }
+
   return(
     <>
+      <PlayerEntry player={player} setPlayer={setPlayer}/>
+      {/* Parent can now use the same data */}
+    
+      <button onClick={increaseAll}>Increase</button>
+      <div style={{display:'flex', flexWrap:'wrap', gap:'10px', justifyContent:'center'}}>
+        {player.map((p)=>{
+          return(         
+              <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', border:'solid 1px', width:'400px'}}>
+                {/* <button onClick={onIncrement(p.playerID)}>+</button> */}
+                <button onClick={()=>onIncrement(p.playerID)}>+</button>
+                <div>
+                  <p>Name : {p.name}</p>
+                  <p>Score : {p.score}</p>
+                </div>
+                <button onClick={()=>onDecrement(p.playerID)}>-</button>
+              </div>
+          )
+        })}
+      </div>
+      <button onClick={decreaseAll}>Decrease</button>
+      
     </>
   )
 }
 export default App
 
-function Scoreboard(){
-  const [player,setPlayer] = useState([])
-
-  function onSubmit(e){
-    e.preventDefault();
-    const formData = new FormData(e.target);
-    const {score, name, id} = Object.fromEntries(formData);
-    // Guard clause: Avoid adding empty entries if fields are left blank
-    if (!name || !score || !id) return;
-
-    const idDatas = player.reduce((acc,value)=>{
-      acc.push(value.playerID)
-      return acc;
-    },[])
-    if (idDatas.includes(id)){
-      console.log("Already Player Exist");
-      return;
-    }
-
-    // setPlayer((prev)=>(prev.push({name: name, score: score})));
-    // NOTE: push will not work here, it returns a number(length) not array
-    setPlayer((prev)=>[
-      ...prev,
-      {playerID: id,name:name, score:score}
-    ])
-    console.log(player);
-  }
-  function handleInput(e){
-
-  }
-
-  return (
-    <>
-      <h2>Player's Entry</h2>
-      <form action="" onSubmit={onSubmit}>
-        <label htmlFor="name">Player's Name : </label>
-        <input type="text" name='name' id='name' onInput={handleInput} /> 
-        &nbsp;
-        <label htmlFor="score">Initial Score : </label>
-        <input type="number" name='score' id='score' onInput={handleInput}/>
-        <br />
-        &nbsp;
-        <label htmlFor="id">Player's ID : </label>
-        <input type="number" name='id' id='id' onInput={handleInput}/>
-        <br />
-        <button style={{backgroundColor:'black'}}>Submit</button>
-      </form>
-
-      <br />
-      <h2>Players' Details</h2>
-      {player.map(value=>{
-        return <p key={value.playerID}>Name : {value.name}, Score : {value.score}, Player's ID : {value.playerID}</p>
-      })}
-    </>
-  )
-}
-export {Scoreboard}
