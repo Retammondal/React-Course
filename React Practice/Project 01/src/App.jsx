@@ -39,15 +39,13 @@
 3. targetScore = 10
 4. function incrementScore(players id) --> setPlayers()
 */
-// ---------------------------------------------------------------------------------------------------------------------------------------------------
-// NOTE : did many things...
-// What have to be Done ?
-// Victory Condition and going to negative score block...
-// ---------------------------------------------------------------------------------------------------------------------------------------------------
+
 
 import { useState } from 'react'
 import './App.css'
 import PlayerEntry from './Component/PlayerEntry'
+import ScoreUpdate from './Component/ScoreUpdate';
+import WinnerList from './Component/WinnerList';
 
 const initialPlayersList = [
   { "name": "Anya", "playerID": 102, "score": 4 },
@@ -57,53 +55,19 @@ const initialPlayersList = [
   { "name": "Elena", "playerID": 106, "score": 4 }
 ]
 
+const initialTargetScore = 10;
+
 function App() {
   const [player,setPlayer] = useState(initialPlayersList);  // Lifting State Up
-
-  function onIncrement(id){
-    setPlayer((prev)=>{
-      return prev.map((p)=>p.playerID==id ? {...p, score:p.score+1} : p)
-    })
-  }
-  function onDecrement(id){
-    setPlayer((prev)=>{
-      return prev.map((p)=>p.playerID==id ? {...p, score:p.score-1} : p)
-    })
-  }
-
-  function increaseAll(){
-    setPlayer((prev)=>{
-      return prev.map((p)=>({...p, score:p.score+1}))
-    })
-  }
-  function decreaseAll(){
-    setPlayer((prev)=>{
-      return prev.map((p)=>({...p, score:p.score-1}))
-    })
-  }
+  const [targetScore, setTargetScore] = useState(initialTargetScore)
 
   return(
     <>
       <PlayerEntry player={player} setPlayer={setPlayer}/>
       {/* Parent can now use the same data */}
     
-      <button onClick={increaseAll}>Increase</button>
-      <div style={{display:'flex', flexWrap:'wrap', gap:'10px', justifyContent:'center'}}>
-        {player.map((p)=>{
-          return(         
-              <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', border:'solid 1px', width:'400px'}}>
-                {/* <button onClick={onIncrement(p.playerID)}>+</button> */}
-                <button onClick={()=>onIncrement(p.playerID)}>+</button>
-                <div>
-                  <p>Name : {p.name}</p>
-                  <p>Score : {p.score}</p>
-                </div>
-                <button onClick={()=>onDecrement(p.playerID)}>-</button>
-              </div>
-          )
-        })}
-      </div>
-      <button onClick={decreaseAll}>Decrease</button>
+      <ScoreUpdate player={player} setPlayer={setPlayer} targetScore={targetScore}/>
+      <WinnerList targetScore={targetScore} setTargetScore={setTargetScore} player={player}/>
       
     </>
   )
