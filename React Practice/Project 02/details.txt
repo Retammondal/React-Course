@@ -1,0 +1,72 @@
+PROJECT: REUSABLE PRODUCT CATALOG SHOWCASE
+==========================================
+
+OVERVIEW
+--------
+Build a small storefront page that displays a catalog of products as a grid of
+cards. The page should feel consistent, with every product framed in the same
+styled container, and it should respond sensibly when product data is incomplete.
+
+
+REQUIREMENTS
+------------
+
+Product data
+  - Create an array of at least 8 product objects, each with a unique identifier.
+  - Include a mix of cases: some products in stock, some out of stock, and at
+    least two with missing data (for example, no image or no price).
+
+Product card
+  Each product card should display:
+  - The product title
+  - The price, formatted as currency
+  - The product image
+  - A stock status indicator
+
+  If a card is given incomplete data, it should still render something sensible
+  instead of breaking or showing "undefined".
+
+Card frame
+  - Every product card must appear inside a shared frame component that supplies
+    the border, padding, shadow, and rounded corners.
+  - The frame should know nothing about products. It should work equally well if
+    you later wrapped a testimonial or a blog preview in it.
+
+Catalog page
+  - Render the full list of products on the page in a responsive grid.
+  - Add a page heading and a short subtitle.
+
+Stock status behavior
+  - In-stock products show a visible green badge.
+  - Out-of-stock products show a visible red or grey badge, and the card itself
+    should look visibly different (dimmed, desaturated, or similar).
+
+
+ACCEPTANCE CRITERIA
+-------------------
+[ ] No console warnings or errors in the browser
+[ ] Adding a new product to the array makes it appear with no other code changes
+[ ] Removing or reordering products in the array never causes visual glitches
+[ ] A product with no image shows a placeholder
+[ ] A product with no price shows a fallback message instead of $undefined
+[ ] The frame component can be reused with unrelated content
+[ ] Layout looks fine on both a wide desktop window and a narrow mobile-sized one
+
+
+STRETCH GOALS
+-------------
+  - Show a "Low stock" badge when the quantity is below a threshold
+  - Add a sale price with the original price struck through
+  - Add a filter toggle: "Show only in-stock items"
+  - Show a count of the products currently displayed
+
+
+SUGGESTED STRUCTURE
+-------------------
+src/
+  App.jsx
+  Component/
+    ProductCard.jsx
+    CardContainer.jsx
+  data/
+    products.js
