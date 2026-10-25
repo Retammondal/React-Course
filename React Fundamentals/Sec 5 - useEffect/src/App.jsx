@@ -3,7 +3,6 @@
 // ------------------------------------------------------------------------------------------------------
 import React, { useState, useEffect } from 'react';
 
-// Task : Dont revise the notes though but for sure understood a lot....want to do products in tabular format and revise carely the Timer loading feature...
 
 // ======================================================================================================
 // Concept 1: What is a Side Effect?
@@ -57,6 +56,15 @@ export function AppProblem({ title = "Without useEffect" }) {
 // Rule 1: useEffect(func)         -> Runs after EVERY render (basically the same problem as above).
 // Rule 2: useEffect(func, [])     -> Empty Array. Runs exactly ONCE after the first render (Mount).
 // Rule 3: useEffect(func, [a, b]) -> Runs after first render, AND whenever 'a' or 'b' changes.
+
+// Syntax : 
+// useEffect(() => {
+//   // Setup: synchronize something
+
+//   return () => {
+//     // Cleanup: stop synchronization
+//   };
+// }, [dependencies]);
 
 export function UseEffectMount({ title = "useEffect Mount" }) {
     const [productCount, setProductCount] = useState(0);
@@ -202,3 +210,6 @@ export function TimerUse() {
         </div>
     );
 }
+
+
+export default App;
